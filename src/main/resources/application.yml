@@ -1,0 +1,57 @@
+server:
+  port: 9000
+  servlet:
+    context-path: /
+
+spring:
+  
+  datasource:
+    url: jdbc:h2:mem:authdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  
+  h2:
+    console:
+      enabled: true
+  
+  jpa:
+    hibernate:
+      ddl-auto: none # Utilizamos schema.sql para definir el esquema
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+  
+  application:
+    name: auth-server      
+  
+  sql:
+    init:
+      mode: always # Ejecutar schema.sql en cada inicio
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: false
+    fetch-registry: false
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 10
+
+
+logging:
+  level:
+    org.springframework.security: TRACE    
+    org.springframework.web: INFO
+
+
+management:  
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health,info        
+  endpoint:
+    health:
+      show-details: always
